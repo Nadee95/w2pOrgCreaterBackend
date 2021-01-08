@@ -20,9 +20,21 @@ public class Member {
 	@JoinColumn(name="oid", nullable=false ,referencedColumnName = "oid")
 	private Organization org;
 	private String email;
+	private MemberStatus status;
 	
 	public Member() {
 	}
+	
+	
+	public MemberStatus getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(MemberStatus status) {
+		this.status = status;
+	}
+
 
 	public Organization getOrg() {
 		return org;

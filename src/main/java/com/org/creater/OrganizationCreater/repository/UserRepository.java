@@ -8,6 +8,7 @@ import com.org.creater.OrganizationCreater.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
 	
-	public List<User> findByName(String name);
+	public List<User> findByFirstName(String name);
+	public User findByEmail(String email);
 	
 }

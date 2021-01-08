@@ -1,4 +1,7 @@
 package com.org.creater.OrganizationCreater.service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 import java.util.List;
 
@@ -6,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.org.creater.OrganizationCreater.entity.User;
+import com.org.creater.OrganizationCreater.exceptions.ExistingUserException;
 import com.org.creater.OrganizationCreater.exceptions.UserNotFoundException;
 import com.org.creater.OrganizationCreater.repository.UserRepository;
 
@@ -15,37 +19,58 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
+	
+	PasswordEncoder encoder;
+	
 	public UserService() {
+		encoder= new BCryptPasswordEncoder();
 	}
 	
+	
+	//Add new User/ Register
 	public User addUser(User user) {
+		
+		User existingUser;
+		
+		if((existingUser=repository.findByEmail(user.getEmail()))!=null) {
+			if(user.getEmail().equals(existingUser.getEmail())) {
+				throw new ExistingUserException();
+			}
+		}
+		
 		
 		User newUser=new User();
 		newUser.setEmail(user.getEmail());
-		newUser.setName(user.getName());
+		newUser.setFirstName(user.getFirstName());
+		newUser.setLastName(user.getLastName());
 		newUser.setPhone(user.getPhone());
-		//newUser.setPassword(user.getPassword());
-		//newUser.setPassword(encoder.encode(user.getPassword());
+		newUser.setPassword(encoder.encode(user.getPassword()));
 		
-		return repository.save(user);
+		return this.removePassword(repository.save(newUser));
 	}
 	
+	//Get all users for admin panel
 	public List<User> getAllUsers(){
-		return repository.findAll();
+		List<User> users=repository.findAll();
+		users.forEach((user)->{user.setPassword(null);});
+		return users;
 	}
 	
-	//handling with custom exception
+	//get user by user id /handling with custom exception
 	public User getUserById(Long id){
 		User user= repository.findById(id).orElseThrow(UserNotFoundException::new);
-		user.setPassword(null);
 		
-		return user;
+		return this.removePassword(this.removePassword(user));
 	}
 	
+	//get user by name -> can be many -> return a list
 	public List<User> getUserByName(String name){
-		return repository.findByName(name);
+		List<User> users=repository.findByFirstName(name);
+		users.forEach((user)->{user.setPassword(null);});
+		return users;
 	}
 
+	//delete a user
 	public long deleteUser(long id) {
 		if(repository.findById(id).orElse(null)!=null) {
 			repository.deleteById(id);
@@ -53,8 +78,27 @@ public class UserService {
 		}
 		return -1;
 	}
-
+	
+	//update a user
 	public User updateUser(User user) {
-		return repository.save(user);
+		User updatedUser=repository.save(user);
+		
+		return this.removePassword(updatedUser);
+	}
+	
+	//get user by email -> return one
+	public User getUserByEmail(String email) {
+		return this.removePassword(repository.findByEmail(email));
+	}
+	
+	//only for authorization
+	public String getUserPasswordByEmail(String email) {
+		return repository.findByEmail(email).getPassword();
+	}
+	
+	//return user without password
+	public User removePassword(User user) {
+		user.setPassword(null);
+		return user;
 	}
 }
