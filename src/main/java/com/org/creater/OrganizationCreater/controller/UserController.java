@@ -24,7 +24,7 @@ import com.org.creater.OrganizationCreater.service.UserAuthDetailService;
 import com.org.creater.OrganizationCreater.service.UserService;
 import com.org.creater.OrganizationCreater.util.JwtUtil;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class UserController {
 	
@@ -52,7 +52,9 @@ public class UserController {
 	
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authRequest) throws Exception{
-		
+		if(this.service.getUserByEmail(authRequest.getEmail())==null) {
+			return ResponseEntity.ok(null);
+		}
 		try {
 			authManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(),
 					authRequest.getPassword()));

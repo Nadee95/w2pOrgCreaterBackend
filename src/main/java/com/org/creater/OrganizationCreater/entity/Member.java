@@ -14,11 +14,16 @@ public class Member {
 	@Id
 	@GeneratedValue
 	private Long mid;
+	public Long getMid() {
+		return mid;
+	}
+
 	private String name;
 	
 	@ManyToOne
 	@JoinColumn(name="oid", nullable=false ,referencedColumnName = "oid")
 	private Organization org;
+	
 	private String email;
 	private MemberStatus status;
 	

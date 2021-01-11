@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.org.creater.OrganizationCreater.entity.User;
 import com.org.creater.OrganizationCreater.exceptions.ExistingUserException;
 import com.org.creater.OrganizationCreater.exceptions.UserNotFoundException;
@@ -46,7 +47,7 @@ public class UserService {
 		newUser.setPhone(user.getPhone());
 		newUser.setPassword(encoder.encode(user.getPassword()));
 		
-		return this.removePassword(repository.save(newUser));
+		return repository.save(newUser);
 	}
 	
 	//Get all users for admin panel
@@ -59,7 +60,7 @@ public class UserService {
 	//get user by user id /handling with custom exception
 	public User getUserById(Long id){
 		User user= repository.findById(id).orElseThrow(UserNotFoundException::new);
-		
+		System.out.println("\n getUserById \n");
 		return this.removePassword(this.removePassword(user));
 	}
 	
@@ -81,18 +82,21 @@ public class UserService {
 	
 	//update a user
 	public User updateUser(User user) {
+		
 		User updatedUser=repository.save(user);
 		
 		return this.removePassword(updatedUser);
 	}
 	
-	//get user by email -> return one
+	//get user by email also used for auth-> return one
 	public User getUserByEmail(String email) {
-		return this.removePassword(repository.findByEmail(email));
+		System.out.println("\n getUserByEmail \n");
+		return this.repository.findByEmail(email);
 	}
 	
 	//only for authorization
 	public String getUserPasswordByEmail(String email) {
+		System.out.println("\n getUserPasswordByEmail \n");
 		return repository.findByEmail(email).getPassword();
 	}
 	
@@ -101,4 +105,6 @@ public class UserService {
 		user.setPassword(null);
 		return user;
 	}
+	
+	
 }

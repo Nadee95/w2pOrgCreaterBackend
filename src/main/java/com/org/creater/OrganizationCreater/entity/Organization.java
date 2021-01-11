@@ -19,9 +19,13 @@ public class Organization {
 	@GeneratedValue
 	private Long orgId;
 	
+	
+
+
+	@JoinColumn(name="user_id", nullable=false ,referencedColumnName = "id"	)
 	@ManyToOne
-	@JoinColumn(name="userId", nullable=false ,referencedColumnName = "id")
-	private User user;
+	private User userId;
+	
 	private String orgName;
 	private Date dateCreated;
 	private String description;
@@ -31,14 +35,17 @@ public class Organization {
 		
 	}
 
-
+	public Long getOrgId() {
+		return orgId;
+	}
+	
 	public User getUser() {
-		return user;
+		return userId;
 	}
 
 
 	public void setUser(User user) {
-		this.user = user;
+		this.userId = user;
 	}
 
 
