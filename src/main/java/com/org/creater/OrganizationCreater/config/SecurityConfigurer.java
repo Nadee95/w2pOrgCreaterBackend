@@ -2,6 +2,7 @@ package com.org.creater.OrganizationCreater.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,8 +51,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
 				"/addUser",
 				"/member/accept/{id}",
 				"/member/reject/{id}")
-				.permitAll().
-				anyRequest().authenticated().and().
+				.permitAll().antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+				.anyRequest().authenticated().and().
 				exceptionHandling().and().sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

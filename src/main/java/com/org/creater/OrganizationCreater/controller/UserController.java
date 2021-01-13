@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.org.creater.OrganizationCreater.entity.User;
 import com.org.creater.OrganizationCreater.model.AuthenticationRequest;
 import com.org.creater.OrganizationCreater.model.AuthenticationResponse;
@@ -24,7 +25,7 @@ import com.org.creater.OrganizationCreater.service.UserAuthDetailService;
 import com.org.creater.OrganizationCreater.service.UserService;
 import com.org.creater.OrganizationCreater.util.JwtUtil;
 
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class UserController {
 	
@@ -59,7 +60,7 @@ public class UserController {
 			authManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(),
 					authRequest.getPassword()));
 		}catch(BadCredentialsException e) {
-			throw new Exception("Incorrect Email and Passsword",e);
+			throw new Exception("Incorrect Email and Passsword");
 		}
 		
 		final UserDetails userDetails = authDetailService.loadUserByUsername(authRequest.getEmail());
@@ -77,6 +78,11 @@ public class UserController {
 	@GetMapping("/getAllUsers")
 	public List<User> getAllUsers() {
 		return this.service.getAllUsers();
+	}
+	
+	@PostMapping("/getUserByEmail")
+	public User addUser(@RequestBody String email) { 
+		return this.service.getUserByEmail(email);
 	}
 	
 	@GetMapping("/getUserById/{id}")

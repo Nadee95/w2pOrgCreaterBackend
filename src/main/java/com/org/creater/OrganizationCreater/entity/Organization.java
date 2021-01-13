@@ -29,8 +29,25 @@ public class Organization {
 	private String orgName;
 	private Date dateCreated;
 	private String description;
+	private String email;
 	
 	
+	public User getUserId() {
+		return userId;
+	}
+
+	public void setUserId(User userId) {
+		this.userId = userId;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public Organization() {
 		
 	}

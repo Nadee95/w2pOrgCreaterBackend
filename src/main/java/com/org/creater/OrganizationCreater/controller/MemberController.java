@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ import com.org.creater.OrganizationCreater.entity.Organization;
 import com.org.creater.OrganizationCreater.service.MemberService;
 import com.org.creater.OrganizationCreater.service.OrganizationService;
 
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class MemberController {
 	
@@ -62,7 +63,8 @@ public class MemberController {
 		MimeMessage message=mailSender.createMimeMessage();
 		MimeMessageHelper mailMessage=new MimeMessageHelper(message);
 		
-		mailMessage.setFrom("OrgCreator@w2p.com");
+		mailMessage.setFrom("OrgCreator@w2p.com");//
+		//mailMessage.setFrom(org.getEmail());//
 		mailMessage.setTo(member.getEmail());
 		mailMessage.setSubject("Invitation to join "+org.getOrgName());
 		
@@ -74,7 +76,7 @@ public class MemberController {
 				+"<h3>"+"<a href=\""+feedbackUrl+"\">Accept</a>" +"</h3>"
 				+"<br>"+"<h3>"+"<a href=\""+feedbackUrl.replace("accept", "reject")+"\">Reject</a>" +"</h3>";
 		mailMessage.setText(body,true);
-		System.out.println(request.getServletPath()+"\n" + request.getRequestURL());
+		System.out.println(request.getServletPath()+"\n" + request.getRequestURL());	
 		//mailMessage.
 		mailSender.send(message);
 		

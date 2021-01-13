@@ -96,13 +96,23 @@ public class UserService {
 	
 	//only for authorization
 	public String getUserPasswordByEmail(String email) {
-		System.out.println("\n getUserPasswordByEmail \n");
+		System.out.println("\n getUserPasswordByEmail \n"+email);
 		return repository.findByEmail(email).getPassword();
 	}
 	
 	//return user without password
 	public User removePassword(User user) {
-		user.setPassword(null);
+		System.out.println("before "+ user.getPassword());
+		User newUser=new User();
+		newUser.setEmail(user.getEmail());
+		newUser.setFirstName(user.getFirstName());
+		newUser.setLastName(user.getLastName());
+		newUser.setPhone(user.getPhone());
+		newUser.setPassword("");
+		
+		
+		System.out.println("after "+ user.getPassword());
+		
 		return user;
 	}
 	

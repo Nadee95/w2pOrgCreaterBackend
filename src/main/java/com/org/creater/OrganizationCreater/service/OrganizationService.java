@@ -24,6 +24,7 @@ public class OrganizationService {
 	
 	//addORG
 	public Organization addOrganization(Organization organization) {
+		System.out.println(organization);
 		User user= userService.getUserById(organization.getUser().getId());
 		organization.setUser(user);
 		return this.repository.save(organization);

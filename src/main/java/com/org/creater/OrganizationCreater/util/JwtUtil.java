@@ -4,9 +4,12 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.org.creater.OrganizationCreater.service.UserService;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +22,9 @@ public class JwtUtil {
 	
 	@Value("${jwt.secret}")
 	private String SECRET_KEY;
+	
+	@Autowired
+	private UserService userService;
 	
 	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;//pri
 
@@ -44,7 +50,9 @@ public class JwtUtil {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        claims.put("user", userService.getUserByEmail(userDetails.getUsername()));
+        
+        return createToken(claims,userDetails.getUsername());
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
