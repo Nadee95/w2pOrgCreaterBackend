@@ -8,15 +8,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name= "organization")
+
 public class Organization {
 	
 	@Id
 	@Column(name = "oid")
 	@GeneratedValue
+	//@OneToMany(mappedBy = "organization", cascade = javax.persistence.CascadeType.REMOVE)
 	private Long orgId;
 	
 	

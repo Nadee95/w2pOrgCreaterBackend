@@ -30,8 +30,14 @@ public class OrganizationService {
 		return this.repository.save(organization);
 	}
 	
-	//delete
+	
 	//update
+	public Organization updateOrganization(Organization organization) {
+		
+		User user= userService.getUserById(organization.getUser().getId());
+		organization.setUser(user);
+		return this.repository.save(organization);
+	}
 	//getALLByUid
 	public Organization getOrganizationById(long oid) {
 		return this.repository.getOne(oid);
@@ -39,6 +45,11 @@ public class OrganizationService {
 	
 	public List<Organization> getOrganizationsByUserId(Long id){
 		return this.repository.findAllByUserId_id(id);
+	}
+	//delete
+	public long deleteOrganizationById(long id) {
+		this.repository.deleteById(id);
+		return -1; 
 	}
 	
 

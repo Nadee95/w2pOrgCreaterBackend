@@ -14,10 +14,7 @@ public class Member {
 	@Id
 	@GeneratedValue
 	private Long mid;
-	public Long getMid() {
-		return mid;
-	}
-
+	
 	private String name;
 	
 	@ManyToOne
@@ -30,7 +27,9 @@ public class Member {
 	public Member() {
 	}
 	
-	
+	public Long getMid() {
+		return mid;
+	}
 	public MemberStatus getStatus() {
 		return status;
 	}

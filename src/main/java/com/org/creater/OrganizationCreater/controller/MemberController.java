@@ -8,15 +8,12 @@ import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,7 +60,7 @@ public class MemberController {
 		MimeMessage message=mailSender.createMimeMessage();
 		MimeMessageHelper mailMessage=new MimeMessageHelper(message);
 		
-		mailMessage.setFrom("OrgCreator@w2p.com");//
+		mailMessage.setFrom(org.getEmail());//
 		//mailMessage.setFrom(org.getEmail());//
 		mailMessage.setTo(member.getEmail());
 		mailMessage.setSubject("Invitation to join "+org.getOrgName());

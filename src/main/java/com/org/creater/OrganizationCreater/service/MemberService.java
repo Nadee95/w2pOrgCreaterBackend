@@ -57,4 +57,11 @@ public class MemberService {
 		Organization org= organizationService.getOrganizationById(oid);
 		return repository.findAllByOrg_OrgId(org.getOrgId());
 	}
+
+	public boolean deleteAllMembersByOid(Organization org) {
+		// TODO Auto-generated method stub
+		return this.repository.deleteAllMembersByOrg(org);
+	}
+
+	
 }
