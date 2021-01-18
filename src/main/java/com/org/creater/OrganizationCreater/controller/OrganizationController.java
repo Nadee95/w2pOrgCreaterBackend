@@ -39,12 +39,13 @@ public class OrganizationController {
 		return this.service.addOrganization(organization);	
 	}
 	
+
 	@GetMapping("/organization/getAllOrganizations/{id}")
 	public List<OrganizationDTO> getAllRelaventOrganizations(@PathVariable Long id){
 		
-		System.out.println(id);
-		
 		List<Organization> organizations= this.service.getOrganizationsByUserId(id);
+		
+		
 		
 		List<OrganizationDTO> orgListWithMembers=new ArrayList<>();
 			
@@ -61,6 +62,7 @@ public class OrganizationController {
 		});
 		
 		return orgListWithMembers;
+		//return organizations;
 		
 	}
 	
@@ -72,17 +74,12 @@ public class OrganizationController {
 	
 	@DeleteMapping("/organization/deleteOrganization/{oid}")
 	public long deleteOrganizationById(@PathVariable long oid) {
-		//Organization org=this.service.getOrganizationById(oid);
-		//if(this.memberservice.deleteAllMembersByOid(org)) {
-			
-		//}
 		return this.service.deleteOrganizationById(oid);
 		
 	}
 	
 	@PutMapping("/organization/updateOrganization")
 	public Organization updateOrganization(@RequestBody Organization organization) {
-		
 		return this.service.updateOrganization(organization);	
 	}
 

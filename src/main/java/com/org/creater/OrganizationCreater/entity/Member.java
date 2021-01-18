@@ -1,6 +1,9 @@
 package com.org.creater.OrganizationCreater.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -9,17 +12,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name= "member")
-public class Member {
+public class Member implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	private Long mid;
 	
 	private String name;
 	
-	@ManyToOne
-	@JoinColumn(name="oid", nullable=false ,referencedColumnName = "oid")
-	private Organization org;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="oid", nullable=false)
+	private Organization organization;
 	
 	private String email;
 	private MemberStatus status;
@@ -40,12 +48,12 @@ public class Member {
 	}
 
 
-	public Organization getOrg() {
-		return org;
+	public Organization getOrganization() {
+		return this.organization;
 	}
 
-	public void setOrg(Organization org) {
-		this.org = org;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	public String getEmail() {

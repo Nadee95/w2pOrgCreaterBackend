@@ -26,7 +26,7 @@ public class JwtUtil {
 	@Autowired
 	private UserService userService;
 	
-	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;//pri
+	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

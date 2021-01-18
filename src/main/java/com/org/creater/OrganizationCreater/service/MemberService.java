@@ -55,12 +55,12 @@ public class MemberService {
 	//getAll members relative to organization
 	public List<Member> getAllMembersByOid(Long oid){
 		Organization org= organizationService.getOrganizationById(oid);
-		return repository.findAllByOrg_OrgId(org.getOrgId());
+		return repository.findAllByOrganization_OrgId(org.getOrgId());
 	}
 
 	public boolean deleteAllMembersByOid(Organization org) {
 		// TODO Auto-generated method stub
-		return this.repository.deleteAllMembersByOrg(org);
+		return this.repository.deleteAllMembersByOrganization(org);
 	}
 
 	
